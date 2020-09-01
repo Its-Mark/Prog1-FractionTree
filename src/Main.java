@@ -1,5 +1,9 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+/**
+ * Project 1 for CECS 328
+ * @author Mark Garcia (Mark.Garcia.8001@gmail.com
+ */
+
+import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -11,6 +15,28 @@ public class Main {
      * @param args
      */
     public static void main(String args[]){
+        BigInteger M; BigInteger N; ArrayList<BigInteger> sol;
+        try {
+            File f = new File("input.txt");
+            Scanner scan = new Scanner(f);
+            M = scan.nextBigInteger();
+            N = scan.nextBigInteger();
+
+            sol = findFraction(M,N);
+            //create the file and write to it
+            File out = new File("output.txt");
+            FileWriter fw = new FileWriter(out);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(sol.get(0).toString() + "\n" + sol.get(1).toString());
+
+
+        } catch (FileNotFoundException fnfe) {
+            fnfe.printStackTrace();
+
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+
+        }
 
     }
 
@@ -25,13 +51,15 @@ public class Main {
      * |Na^2 - Mb^2| < b
      * Output will be two lines, a and then b.
      *  ----------------------- FROM INSTRUCTION -----------------------
-     * @param f = file
+     * @param M = line 1 (numerator)
+     * @param N = line 2 (denominator)
      * @return
      */
-    public ArrayList<BigInteger> findFraction(File f) throws FileNotFoundException {
+    public static ArrayList<BigInteger> findFraction(BigInteger M, BigInteger N){
         ArrayList<BigInteger> solution = new ArrayList<>();
-        Scanner scan = new Scanner(f);
-        BigInteger M; BigInteger N;
+        Node ab;
+        Node temp = new Node(M,N);
+        FractionTree ft = new FractionTree();
 
 
         return solution;
@@ -40,22 +68,46 @@ public class Main {
     /**
      * Create a Fraction Tree
      */
-    public class FractionTree{
+    public static class FractionTree{
         private Node overallRoot;
 
         public FractionTree(){
-            
+            overallRoot = null;
+        }
+
+        public FractionTree(BigInteger m, BigInteger n){
+            overallRoot = new Node(m, n);
+        }
+
+        public int compareNodeData(Node n1, Node n2){
+            int outcome = 0;
+
+            return outcome;
         }
 
     }
 
     /**
-     * Create Nodes containing a pair of numbers with reference to left and right nodes
+     * Create Nodes containing a pair of BigInts with reference to left and right nodes
      */
-    public class Node{
+    public static class Node{
         private ArrayList<BigInteger> data;
         private Node left;
         private Node right;
+
+        public Node(){
+            data = new ArrayList<>();
+            left = null;
+            right = null;
+        }
+
+        public Node(BigInteger m, BigInteger n){
+            data = new ArrayList<>();
+            data.add(m);
+            data.add(n);
+            left = null;
+            right = null;
+        }
 
     }
 }
