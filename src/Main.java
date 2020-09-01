@@ -17,10 +17,10 @@ public class Main {
     public static void main(String args[]){
         BigInteger M; BigInteger N; ArrayList<BigInteger> sol;
         try {
-            File f = new File("input.txt");
+            File f = new File("input1.txt");
             Scanner scan = new Scanner(f);
-            M = scan.nextBigInteger();
-            N = scan.nextBigInteger();
+            M = new BigInteger(scan.nextLine());
+            N = new BigInteger(scan.nextLine());
 
             sol = findFraction(M,N);
             //create the file and write to it
@@ -29,6 +29,7 @@ public class Main {
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(sol.get(0).toString() + "\n" + sol.get(1).toString());
 
+            scan.close();
 
         } catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
@@ -63,7 +64,6 @@ public class Main {
         while(solution.isEmpty()){
             //ft.addNode();
         }
-
 
         return solution;
     }
