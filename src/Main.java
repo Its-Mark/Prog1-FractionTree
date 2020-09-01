@@ -53,13 +53,16 @@ public class Main {
      *  ----------------------- FROM INSTRUCTION -----------------------
      * @param M = line 1 (numerator)
      * @param N = line 2 (denominator)
-     * @return
+     * @return the first pair which matches
      */
     public static ArrayList<BigInteger> findFraction(BigInteger M, BigInteger N){
         ArrayList<BigInteger> solution = new ArrayList<>();
         Node ab;
         Node temp = new Node(M,N);
         FractionTree ft = new FractionTree();
+        while(solution.isEmpty()){
+            //ft.addNode();
+        }
 
 
         return solution;
@@ -83,6 +86,10 @@ public class Main {
             int outcome = 0;
 
             return outcome;
+        }
+
+        private void addNode(BigInteger num1, BigInteger num2){
+            
         }
 
     }
