@@ -59,8 +59,10 @@ public class Main {
     public static ArrayList<BigInteger> findFraction(BigInteger M, BigInteger N){
         ArrayList<BigInteger> solution = new ArrayList<>();
         Node ab;
-        Node temp = new Node(M,N);
+        Node toFind = new Node(M,N);
         FractionTree ft = new FractionTree();
+        int L = 1;
+        int index = 0;
         while(solution.isEmpty()){
             //ft.addNode();
         }
@@ -83,13 +85,17 @@ public class Main {
         }
 
         public int compareNodeData(Node n1, Node n2){
-            int outcome = 0;
-
-            return outcome;
+            return n1.data.get(0).divide(n1.data.get(1)).compareTo(n2.data.get(0).divide((n2.data.get(1))));
+        }
+        public void addNode(BigInteger M, BigInteger N){
+            ArrayList<BigInteger> temp = new ArrayList<>();
+            temp.add(M); temp.add(N);
+            overallRoot = addNode(this.overallRoot, temp);
         }
 
-        private void addNode(BigInteger num1, BigInteger num2){
-            
+        private Node addNode(Node root, ArrayList<BigInteger> al){
+
+            return root;
         }
 
     }
