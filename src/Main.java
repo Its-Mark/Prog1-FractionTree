@@ -58,8 +58,8 @@ public class Main {
      */
     public static ArrayList<BigInteger> findFraction(BigInteger M, BigInteger N){
         ArrayList<BigInteger> solution = new ArrayList<>();
-        Node ab;
-        Node toFind = new Node(M,N);
+        Node current;
+        Node target = new Node(M,N);
         FractionTree ft = new FractionTree();
         int L = 1;
         int index = 0;
@@ -80,20 +80,30 @@ public class Main {
             overallRoot = null;
         }
 
-        public FractionTree(BigInteger m, BigInteger n){
-            overallRoot = new Node(m, n);
+        public FractionTree(Node n){
+            overallRoot = n;
         }
 
         public int compareNodeData(Node n1, Node n2){
-            return n1.data.get(0).divide(n1.data.get(1)).compareTo(n2.data.get(0).divide((n2.data.get(1))));
+            BigInteger num1 = n1.data.get(0).divide(n1.data.get(1));
+            BigInteger num2 = n2.data.get(0).divide((n2.data.get(1)));
+            return num1.compareTo(num2);
         }
-        public void addNode(BigInteger M, BigInteger N){
-            ArrayList<BigInteger> temp = new ArrayList<>();
-            temp.add(M); temp.add(N);
-            overallRoot = addNode(this.overallRoot, temp);
+        public void addNode(Node n){
+            overallRoot = addNode(this.overallRoot, n);
         }
 
-        private Node addNode(Node root, ArrayList<BigInteger> al){
+        private Node addNode(Node root, Node nta){
+            if(root == null){
+                root = nta;
+            } else {
+                int compOutcome = compareNodeData(root, nta);
+                if (compOutcome < 0) {
+                    root.left = addNode(root.left,nta);
+                } else if ( compOutcome > 0) {
+                    root.right = addNode(root.right,nta);
+                }
+            }
 
             return root;
         }
