@@ -73,14 +73,14 @@ public class Main {
      * @return the first pair which matches
      */
     public static Node findFraction(BigInteger M, BigInteger N){
-        Node current;
-        Node target = new Node(M,N);
+        Node newNode;
+        Node solution = null;
         Node temp1 = new Node(new BigInteger("0"), new BigInteger("1"));
         Node temp2 = new Node(new BigInteger("1"), new BigInteger("0"));
         FractionTree ft = new FractionTree();
-        while(true){
-            current = add(temp1,temp2);
-            ft.addNode(current);
+        while(solution == null){
+            newNode = add(temp1,temp2);
+            ft.addNode(newNode);
 
         }
 
