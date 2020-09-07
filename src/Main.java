@@ -1,6 +1,21 @@
 /**
  * Project 1 for CECS 328
  * @author Mark Garcia (Mark.Garcia.8001@gmail.com
+ *
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ * THIS IS ABANDONED
+ *
+ * check new repository
+ *
+ *
  */
 
 import java.io.*;
@@ -15,7 +30,7 @@ public class Main {
      * @param args
      */
     public static void main(String args[]){
-        BigInteger M; BigInteger N; ArrayList<BigInteger> sol;
+        BigInteger M; BigInteger N; Node sol;
         try {
             File f = new File("input1.txt");
             Scanner scan = new Scanner(f);
@@ -24,10 +39,11 @@ public class Main {
 
             sol = findFraction(M,N);
             //create the file and write to it
-            File out = new File("output.txt");
+            File out = new File("output7.txt");
             FileWriter fw = new FileWriter(out);
             BufferedWriter bw = new BufferedWriter(fw);
-            bw.write(sol.get(0).toString() + "\n" + sol.get(1).toString());
+            bw.write(sol.data.get(0).toString() + "\n" + sol.data.get(1).toString());
+            System.out.println("SOLUTION: \n" + sol.data.get(0) + "\n" + sol.data.get(1));
 
             scan.close();
 
@@ -56,18 +72,18 @@ public class Main {
      * @param N = line 2 (denominator)
      * @return the first pair which matches
      */
-    public static ArrayList<BigInteger> findFraction(BigInteger M, BigInteger N){
-        ArrayList<BigInteger> solution = new ArrayList<>();
+    public static Node findFraction(BigInteger M, BigInteger N){
         Node current;
         Node target = new Node(M,N);
+        Node temp1 = new Node(new BigInteger("0"), new BigInteger("1"));
+        Node temp2 = new Node(new BigInteger("1"), new BigInteger("0"));
         FractionTree ft = new FractionTree();
-        int L = 1;
-        int index = 0;
-        while(solution.isEmpty()){
-            //ft.addNode();
+        while(true){
+            current = add(temp1,temp2);
+            ft.addNode(current);
+
         }
 
-        return solution;
     }
 
     /**
@@ -84,11 +100,6 @@ public class Main {
             overallRoot = n;
         }
 
-        public int compareNodeData(Node n1, Node n2){
-            BigInteger num1 = n1.data.get(0).divide(n1.data.get(1));
-            BigInteger num2 = n2.data.get(0).divide((n2.data.get(1)));
-            return num1.compareTo(num2);
-        }
         public void addNode(Node n){
             overallRoot = addNode(this.overallRoot, n);
         }
@@ -97,7 +108,7 @@ public class Main {
             if(root == null){
                 root = nta;
             } else {
-                int compOutcome = compareNodeData(root, nta);
+                int compOutcome = root.compareTo(nta);
                 if (compOutcome < 0) {
                     root.left = addNode(root.left,nta);
                 } else if ( compOutcome > 0) {
@@ -113,7 +124,7 @@ public class Main {
     /**
      * Create Nodes containing a pair of BigInts with reference to left and right nodes
      */
-    public static class Node{
+    public static class Node implements Comparable<Node>{
         private ArrayList<BigInteger> data;
         private Node left;
         private Node right;
@@ -132,5 +143,30 @@ public class Main {
             right = null;
         }
 
+        @Override
+        public int compareTo(Node o) {
+            if(this.data.get(0).compareTo(o.data.get(0)) == 0 ){
+                if((this.data.get(1).compareTo(o.data.get(1)) == 0 )){
+                    return 0;
+                } else if ((this.data.get(1).compareTo(o.data.get(1)) < 0)) {
+                    return -1;
+                } else if ((this.data.get(1).compareTo(o.data.get(1)) > 0)) {
+                    return 1;
+                }
+            } else if (this.data.get(0).compareTo(o.data.get(0)) < 0 ) {
+                return -1;
+            } else if (this.data.get(0).compareTo(o.data.get(0)) > 0 ) {
+                return 1;
+            }
+
+            return -2;
+        }
+
+    }
+    public static Node add(Node n1, Node n2){
+        BigInteger num = n1.data.get(0).add(n2.data.get(0));
+        BigInteger den = n1.data.get(1).add(n2.data.get(1));
+        Node n3 = new Node(num,den);
+        return n3;
     }
 }
