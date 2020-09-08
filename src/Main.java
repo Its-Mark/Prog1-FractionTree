@@ -1,21 +1,6 @@
 /**
  * Project 1 for CECS 328
  * @author Mark Garcia (Mark.Garcia.8001@gmail.com
- *
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- * THIS IS ABANDONED
- *
- * check new repository
- *
- *
  */
 
 import java.io.*;
@@ -46,6 +31,8 @@ public class Main {
             System.out.println("SOLUTION: \n" + sol.data.get(0) + "\n" + sol.data.get(1));
 
             scan.close();
+            bw.close();
+            fw.close();
 
         } catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
@@ -75,14 +62,35 @@ public class Main {
     public static Node findFraction(BigInteger M, BigInteger N){
         Node newNode;
         Node solution = null;
-        Node temp1 = new Node(new BigInteger("0"), new BigInteger("1"));
-        Node temp2 = new Node(new BigInteger("1"), new BigInteger("0"));
+        Node[] nodes = new Node[2];
+        nodes[0] = new Node(new BigInteger("0"), new BigInteger("1")); //start with 0,1 on the left
+        nodes[1] = new Node(new BigInteger("1"), new BigInteger("0")); //start with 1,0 on the right
         FractionTree ft = new FractionTree();
+        int counter = 1;
         while(solution == null){
-            newNode = add(temp1,temp2);
-            ft.addNode(newNode);
+            System.out.println("Attempt: " + counter);
+            newNode = add(nodes[0],nodes[1]);
+            // Na^2
+            BigInteger left = N.multiply((newNode.data.get(0).pow(2)));
+            // Mb^2
+            BigInteger right = M.multiply((newNode.data.get(1).pow(2)));
+            // |Na^2 - Mb^2|
+            BigInteger absDif = (left.subtract(right)).abs();
+            System.out.println("Current Nodes: " + nodes[0].toString() + nodes[1].toString() + newNode.toString());
+            //Compare Nodes!
+            if(left.compareTo(right) == 0 || absDif.compareTo(newNode.data.get(1)) < 0){
+                solution = newNode;
+            } else if (left.compareTo(right) < 0){
+                nodes[0] = newNode;
+                ft.addNode(newNode);
+            } else if (left.compareTo(right) > 0){
+                nodes[1] = newNode;
+                ft.addNode(newNode);
+            }
+            counter++;
 
         }
+        return solution;
 
     }
 
@@ -129,12 +137,6 @@ public class Main {
         private Node left;
         private Node right;
 
-        public Node(){
-            data = new ArrayList<>();
-            left = null;
-            right = null;
-        }
-
         public Node(BigInteger m, BigInteger n){
             data = new ArrayList<>();
             data.add(m);
@@ -160,6 +162,11 @@ public class Main {
             }
 
             return -2;
+        }
+
+        @Override
+        public String toString(){
+            return("[" + this.data.get(0).toString() + "," + this.data.get(1).toString() + "]");
         }
 
     }
