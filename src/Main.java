@@ -17,14 +17,14 @@ public class Main {
     public static void main(String args[]){
         BigInteger M; BigInteger N; Node sol;
         try {
-            File f = new File("input1.txt");
+            File f = new File("input.txt");
             Scanner scan = new Scanner(f);
             M = new BigInteger(scan.nextLine());
             N = new BigInteger(scan.nextLine());
 
             sol = findFraction(M,N);
             //create the file and write to it
-            File out = new File("output7.txt");
+            File out = new File("output.txt");
             FileWriter fw = new FileWriter(out);
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write(sol.data.get(0).toString() + "\n" + sol.data.get(1).toString());
@@ -81,10 +81,14 @@ public class Main {
             if(left.compareTo(right) == 0 || absDif.compareTo(newNode.data.get(1)) < 0){
                 solution = newNode;
             } else if (left.compareTo(right) < 0){
+                ft.addNode(nodes[0]);
                 nodes[0] = newNode;
+                ft.addNode(nodes[1]);
                 ft.addNode(newNode);
             } else if (left.compareTo(right) > 0){
+                ft.addNode(nodes[1]);
                 nodes[1] = newNode;
+                ft.addNode(nodes[0]);
                 ft.addNode(newNode);
             }
             counter++;
